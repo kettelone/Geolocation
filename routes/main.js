@@ -8,10 +8,9 @@ let finalArray = []
 fs.createReadStream('IP2LOCATION-LITE-DB1.CSV')
 .pipe(csv())
 .on('data', function (row) {
-  //create an array for each line in csv file
+  //create an array for each line of csv file
   //if coutry code doesn`t exist skip that line
   if(row.code.length > 1){
-    counter++
     let subArray = [+row.from, +row.to, row.code, row.country]
     //push subarray to the final array
     finalArray.push(subArray)
@@ -23,10 +22,10 @@ fs.createReadStream('IP2LOCATION-LITE-DB1.CSV')
 
 
 router.get('/', (req, res)=>{
-    let headersIP = req.headers['x-forwarded-for']
+    let IP = req.headers['x-forwarded-for']
 
     //Convert IP Address to IP Number
-    let parsedIP = headersIP.split('.')
+    let parsedIP = IP.split('.')
     let w = +parsedIP[0],
         x = +parsedIP[1],
         y = +parsedIP[2],
@@ -39,7 +38,7 @@ router.get('/', (req, res)=>{
     let clientInfo;
     for(let n = 0; n < finalArrayLength; n++){
       if(ipNumber >= finalArray[n][0] && ipNumber <= finalArray[n][1]){
-          clientInfo = {"headersIP is: " : headersIP ,"country is" : finalArray[n][3]}
+          clientInfo = {"IP is: " : IP ,"country is" : finalArray[n][3]}
       }
     }
     
