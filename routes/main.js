@@ -2,7 +2,6 @@ const {Router} = require('express')
 const router = Router()
 const fs = require('fs')
 const csv = require('csv-parser')
-let counter = 0
 let finalArray = []
 
 //read csv file with ip ranges
